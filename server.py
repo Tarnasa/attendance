@@ -10,34 +10,11 @@ import json
 
 import signin
 
-class SignInHandler:
-    def __init__(self):
-        self.html = open('signin.html', 'rb').read()
-        self.custom_headers = False
-
-    def handle(self, handler, get_vars, post_vars):
-        required_fields = ['secret', 'major', 'name', 'email']
-
-        for field in required_fields:
-            if field not in post_vars:
-                handler.wfile.write(self.html.replace(
-                    '{{ response }}', ''))
-                break
-        else:
-            data = {
-                    'secret': post_vars['secret'],
-                    'major': post_vars['major'],
-                    'name': post_vars['name'],
-                    'email': post_vars['email'],
-                    'add_to_sig_sec': 'add_to_sig_sec' in post_vars,
-                    }
-            handler.wfile.write(self.html.replace(
-                '{{ response }}', 'Successfully signed in!'))
 
 paths = [
-        (r'^/signin$', signin.Handler()),
         (r'^/$', signin.Handler()),
         ]
+
 
 class AttendanceHandler(BaseHTTPServer.BaseHTTPRequestHandler):
     def get_handler(self):
