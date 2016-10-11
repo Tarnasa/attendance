@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SIG-Sec Attendance Sign-in</title>
+</head>
+<body>
+    <h1>SIG-Sec Attendance Sign-in</h1>
+    <form method="post">
+        Secret key (Written on the whiteboard at the talk): <input type="text" name="secret" value="{secret}"/><br/>
+        Name: <input type="text" name="name" value="{name}"/><br/>
+        Email: <input type="text" name="email" value="{email}"/><br/>
+        Major: <input type="text" name="major" value="{major}"/><br/>
+        Add me to the SIG-Sec mailing list? <input type="checkbox" name="add_to_sig_sec" {checked}/><br/>
+
+        <input type="submit" value="Submit"/><br/>
+        {response} <br/>
+    </form>
+</body>
+</html>
