@@ -1,0 +1,191 @@
+<!--front-end by Henry C. Wong-->
+<!--Email: hcwqk7@mst.edu-->
+<html lang="en" >
+   <head>
+      <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+      <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.js"></script>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> 
+	    <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+
+	  <style>
+	    /*Centers the main Login box*/
+      .completeCard
+      {
+		    margin-left: auto;
+		    margin-right: auto;
+		    width: 50%;
+	  	}
+		
+		  /*Centers the introduction Text*/
+		  .introText
+      {
+		    text-align: center;	
+        font-family: 'Fira Sans', sans-serif;		
+		  }
+		
+		  /*modifies the checkbox*/
+		  .checkbox
+      {
+		    padding-top: 1em;
+		    font-family: 'Roboto', sans-serif;
+	  	}
+		
+    /*Centers the headline*/
+		.md-headline
+    {
+		  text-align: center;
+		}
+    
+    /*Overwrites the bootstrap to change the color of the check box when checked*/
+    md-checkbox.md-checked.green .md-icon 
+    {
+      background-color: #008000;
+    }
+    
+    /*Changes the color of the submit button*/
+    .submitButton
+    {
+      color: white;
+      background-color: #008000;
+    }
+    
+    /*Changes the color of the submit button when the mouse hovers over the button*/
+    .submitButton:not([disabled]):hover
+    {
+      color:#008000;
+    }
+    </style>
+      
+      <script language="javascript">
+         angular
+            .module('signIn', ['ngMaterial'])
+            .controller('inputController', inputController);
+
+         function inputController ($scope,$mdDialog) {
+           $scope.project = {
+              comments: 'Comments',    
+           };
+           
+           //Creates a pop up when the user clicks the submit button
+          $scope.showAlert = function(ev) {
+               $mdDialog.show(
+                  $mdDialog.alert()
+                     .parent(angular.element(document.querySelector('#dialogContainer')))
+                     .clickOutsideToClose(true)
+                     //title of the pop up alert box
+                     .title('Thank You!')
+                     //The dialog that comes up on the alert box
+                     .textContent('If you haven\'t fill out some boxes please do so!\n If you have just sit back and enjoy the event!')
+                     .ariaLabel('Thank You')
+                     //The close button for the alert box
+                     .ok('Ok!')
+                     .targetEvent(ev)
+               );
+            };           
+         }                 
+      </script>     	  
+   </head>
+   <body ng-app="signIn">
+      <div id="title" class="introText">
+	      <h1> ACM Sign-In </h1>
+      </div>
+
+	  
+      <div id="inputContainer" class="completeCard" ng-controller="inputController as ctrl" ng-cloak>
+         <md-content layout-padding>
+			     <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch="">
+              <md-card-title>
+                <md-card-title-text>
+                  <span class="md-headline">Login</span>
+			
+	            		<form method="post" name="projectForm">  
+                    <md-input-container>
+                      <label>Secret Key</label>
+                      <input required name="key" ng-model="project.key" value="{name}">
+                      <md-tooltip>Written on a board or ask an ACM representative</md-tooltip>
+                      <div ng-messages ="projectForm.key.$error">
+                        <div ng-message = "required"> This is required </div>
+                      </div>
+                    </md-input-container>
+                    <md-input-container class="md-block">
+                      <label>Name</label>
+                      <md-tooltip>First and Last Name</md-tooltip>                  
+                      <input required name="name" ng-model="project.name" value="{email}">
+                      <div ng-messages="projectForm.userName.$error">
+                        <div ng-message="required">This is required.</div>
+                      </div>
+                    </md-input-container>
+                    
+                    <md-input-container class="md-block">
+                      <label>Email</label>
+                      <input required type="email" name="userEmail" ng-model="project.userEmail"
+                       minlength="5" maxlength="100" ng-pattern="/^.+@.+\..+$/" /  value = "{major}">
+                      <md-tooltip>Please use your Missouri S&T Email</md-tooltip>
+                      <div ng-messages="projectForm.userEmail.$error" role="alert">
+                       <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
+                        Your email must be between 5 and 100 characters long and should be a valid email address.
+                       </div>
+                      </div> 
+                    </md-input-container>  
+                
+                    <md-input-container-select>
+                      <md-tooltip>All Majors are in Alphabetical Order</md-tooltip>
+	                    <div>
+                        <md-select ng-model="major" placeholder="Major" class="md-no-underline">
+                          <md-option value="aero">Aerospace Engineer</md-option>
+                          <md-option value="appMath">Applied Mathematics</md-option>
+                          <md-option value="architect">Architectural Engineer</md-option>
+                          <md-option value="bioSci">Biological Sciences</md-option>
+                          <md-option value="mangement">Business & Management Systems</md-option>
+                          <md-option value="ceramic">Ceramic Engineer</md-option>
+                          <md-option value="chemE">Chemical Engineer</md-option>
+                          <md-option value="chem">Chemistry</md-option>
+                          <md-option value="civil">Civil Engineer</md-option>
+                          <md-option value="CE">Computer Engineer</md-option>
+                          <md-option value="CS">Computer Science</md-option>
+                          <md-option value="econ">Economics</md-option>
+                          <md-option value="EE">Electrical Engineer</md-option>
+                          <md-option value="eMan">Engineering Management</md-option>
+                          <md-option value="eng">English</md-option>
+                          <md-option value="enviornment">Environmental Engineer</md-option>
+                          <md-option value="geo">Geological Engineering</md-option>
+                          <md-option value="geoPhysics">Geology & Geophysics</md-option>
+                          <md-option value="history">History</md-option>
+                          <md-option value="IST">Information Science & Technology</md-option>
+                          <md-option value="mechE">Mechanical Engineer</md-option>
+                          <md-option value="metal">Metallurgical Engineer</md-option>
+                          <md-option value="mining">Mining Engineer</md-option>
+                          <md-option value="multi">Multidisciplinary Studies</md-option>
+                          <md-option value="nuke">Nuclear Engineer</md-option>
+                          <md-option value="petro">Petroleum Engineer</md-option>
+                          <md-option value="philo">Philosophy</md-option>
+                          <md-option value="psyc">Psychology</md-option>
+                          <md-option value="techCom">Technical Communication</md-option>
+                          <md-option value="undecided">Undecided</md-option>
+                          <md-option value="undecidedEng">Unndecided Engineer</md-option> 
+                        </md-select>
+                      </div>
+                    </md-input-container-select> 
+                    
+                   <md-checkbox class="green" name = "add_to_sig_sec">
+                     Join ACM SIG-Sec Mailing List
+                   </md-checkbox>
+			 
+			             <md-card-actions layout="row" layout-align="end center">
+                     <md-button type="submit" class="submitButton" ng-click="showAlert($event)">Submit</md-button>
+                   </md-card-actions>
+                  </form>
+                </md-card-title-text>
+                <md-card-title-media>
+                 <div class="md-media-lg card-media"></div>
+                </md-card-title-media>
+             </md-card-title>
+           </md-card>
+         </md-content>
+      </div>
+   </body>
+</html>
