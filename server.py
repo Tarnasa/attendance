@@ -7,6 +7,7 @@ import urlparse
 import cgi
 import time
 import json
+import SocketServer
 
 import signin
 
@@ -16,7 +17,7 @@ paths = [
         ]
 
 
-class AttendanceHandler(BaseHTTPServer.BaseHTTPRequestHandler):
+class AttendanceHandler(SocketServer.ThreadingMixIn, BaseHTTPServer.BaseHTTPRequestHandler):
     def get_handler(self):
         path = self.path
         if '?' in path:
