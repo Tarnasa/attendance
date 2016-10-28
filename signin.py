@@ -45,6 +45,10 @@ DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
 class Handler:
     def __init__(self):
         self.html = open('signin.html', 'rb').read()
+        #self.html = open('index.html', 'rb').read()
+        class CustomTemplate(string.Template):
+            delimiter = '$$'
+        self.template = CustomTemplate(self.html)
         self.keys = self.read_keys()
         self.custom_headers = False
         self.required_fields = ['secret', 'major', 'name', 'email']
@@ -73,13 +77,18 @@ class Handler:
                 'secret': '',
                 'major': '',
                 'name': '',
-                'email': ''}
-        d['checked'] = 'checked' if 'add_to_sig_sec' in d else ''
+                'email': '',
+                'add_to_ccdc': 'False',
+                'add_to_cdt': 'False',
+                'add_to_sig_sec': 'False'}
+        d['ccdc_checked'] = 'checked' if 'add_to_ccdc' in d else ''
+        d['cdt_checked'] = 'checked' if 'add_to_cdt' in d else ''
+        d['sec_checked'] = 'checked' if 'add_to_sig_sec' in d else ''
         params.update(d)
         # Escape quotes for inserting into html
         for field in self.required_fields:
             params[field] = params[field].replace('"', '&quot;')
-        return self.html.format(**params)
+        return self.template.substitute(**params)
 
     def handle(self, handler, get_vars, post_vars):
         if handler.command == 'GET':
@@ -109,6 +118,8 @@ class Handler:
                     'major': post_vars['major'],
                     'name': post_vars['name'],
                     'email': post_vars['email'],
+                    'add_to_ccdc': 'add_to_ccdc' in post_vars,
+                    'add_to_cdt': 'add_to_cdt' in post_vars,
                     'add_to_sig_sec': 'add_to_sig_sec' in post_vars,
                     'time': datetime.now().strftime(DATE_FORMAT),
                     'ip': handler.client_address[0],

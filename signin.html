@@ -7,14 +7,19 @@
 <body>
     <h1>SIG-Sec Attendance Sign-in</h1>
     <form method="post">
-        Secret key (Written on the whiteboard at the talk): <input type="text" name="secret" value="{secret}"/><br/>
-        Name: <input type="text" name="name" value="{name}"/><br/>
-        Email: <input type="text" name="email" value="{email}"/><br/>
-        Major: <input type="text" name="major" value="{major}"/><br/>
-        Add me to the SIG-Sec mailing list? <input type="checkbox" name="add_to_sig_sec" {checked}/><br/>
+        Secret key (Written on the whiteboard at the talk): <input type="text" name="secret" value="$${secret}"/><br/>
+        Name: <input type="text" name="name" value="$${name}"/><br/>
+        Email: <input type="text" name="email" value="$${email}"/><br/>
+        Major: <input type="text" name="major" value="$${major}"/><br/>
+        <span style='width:300pt; float:left'>Add me to the CCDC team!</span>
+            <input type="checkbox" name="add_to_ccdc" $${ccdc_checked}/><br/>
+        <span style='width:300pt; float:left'>Add me to the Cyber Defense Team mailing list!</span>
+            <input type="checkbox" name="add_to_cdt" $${cdt_checked}/><br/>
+        <span style='width:300pt; float:left'>Add me to the SIG-Sec mailing list!</span>
+            <input type="checkbox" name="add_to_sig_sec" $${sec_checked}/><br/>
 
         <input type="submit" value="Submit"/><br/>
-        {response} <br/>
+        <div style="color:red; font-size:20pt">$${response}</div> <br/>
     </form>
 </body>
 </html>
