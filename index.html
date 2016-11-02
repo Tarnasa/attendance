@@ -1,7 +1,10 @@
 <!--front-end by Henry C. Wong-->
 <!--Email: hcwqk7@mst.edu-->
+<!--Version: 0.0.5-->
 <html lang="en" >
    <head>
+      <meta charset = "UTF-8">
+      <title>SIG-Sec Attendance Sign-in</title>
       <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.0/angular-material.min.css">
       <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
       <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
@@ -34,52 +37,61 @@
 		    font-family: 'Roboto', sans-serif;
 	  	}
 		
-    /*Centers the headline*/
-		.md-headline
-    {
-		  text-align: center;
-		}
+      /*Centers the headline*/
+		  .md-headline
+      {
+	  	  text-align: center;
+  		}
     
-    /*Overwrites the bootstrap to change the color of the check box when checked*/
-    md-checkbox.md-checked.green .md-icon 
-    {
-      background-color: #008000;
-    }
+      /*Overwrites the bootstrap to change the color of the check box when checked*/
+      md-checkbox.md-checked.green .md-icon 
+      {
+        background-color: #008000;
+      }
     
-    /*Changes the color of the submit button*/
-    .submitButton
-    {
-      color: white;
-      background-color: #008000;
-    }
+      /*Changes the color of the submit button*/
+      .submitButton
+      {
+        color: white;
+        background-color: #008000;
+      }
     
-    /*Changes the color of the submit button when the mouse hovers over the button*/
-    .submitButton:not([disabled]):hover
-    {
-      color:#008000;
-    }
+      /*Changes the color of the submit button when the mouse hovers over the button*/
+      .submitButton:not([disabled]):hover
+      {
+        color:#008000;
+      }
+      
+      /*Styling CheckBoxes*/
+      .checkBox
+      {
+        align:left;
+        position: relative;
+      }
     </style>
       
       <script language="javascript">
-         angular
-            .module('signIn', ['ngMaterial'])
-            .controller('inputController', inputController);
-
-         function inputController ($scope,$mdDialog) {
+         var app = angular.module('signIn',['ngMaterial']);
+         app.controller('inputController', inputController);
+         
+         function inputController ($scope,$mdDialog) 
+         {
            $scope.project = {
               comments: 'Comments',    
            };
            
            //Creates a pop up when the user clicks the submit button
-          $scope.showAlert = function(ev) {
-               $mdDialog.show(
+          $scope.showAlert = function(ev) 
+          {
+               $mdDialog.show
+               (
                   $mdDialog.alert()
                      .parent(angular.element(document.querySelector('#dialogContainer')))
                      .clickOutsideToClose(true)
                      //title of the pop up alert box
                      .title('Thank You!')
                      //The dialog that comes up on the alert box
-                     .textContent('If you haven\'t fill out some boxes please do so!\n If you have just sit back and enjoy the event!')
+                     .textContent("$${response}")
                      .ariaLabel('Thank You')
                      //The close button for the alert box
                      .ok('Ok!')
@@ -89,54 +101,63 @@
          }                 
       </script>     	  
    </head>
-   <body ng-app="signIn">
+   
+   <body ng-app="signIn" ng-controller="inputController">
       <div id="title" class="introText">
 	      <h1> ACM Sign-In </h1>
       </div>
 
 	  
-      <div id="inputContainer" class="completeCard" ng-controller="inputController as ctrl" ng-cloak>
+      <div id="inputContainer" class="completeCard"  ng-cloak>
          <md-content layout-padding>
-			     <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch="">
+         <form method="post" action="" name="projectForm">  
+			     <md-card>
               <md-card-title>
-                <md-card-title-text>
-                  <span class="md-headline">Login</span>
-			
-	            		<form method="post" name="projectForm">  
+                <md-card-title-text>			
                     <md-input-container>
                       <label>Secret Key</label>
-                      <input required name="key" ng-model="project.key" value="{name}">
+                      <input required name="secret" type = "text" ng-model="project.secret" value="$${secret}">
                       <md-tooltip>Written on a board or ask an ACM representative</md-tooltip>
-                      <div ng-messages ="projectForm.key.$error">
+                      <div ng-messages ="projectForm.secret.$error">
                         <div ng-message = "required"> This is required </div>
                       </div>
                     </md-input-container>
                     <md-input-container class="md-block">
                       <label>Name</label>
                       <md-tooltip>First and Last Name</md-tooltip>                  
-                      <input required name="name" ng-model="project.name" value="{email}">
-                      <div ng-messages="projectForm.userName.$error">
+                      <input required name="name" type="text" ng-model="project.name" value="$${name}">
+                      <div ng-messages="projectForm.name.$error">
                         <div ng-message="required">This is required.</div>
                       </div>
                     </md-input-container>
                     
                     <md-input-container class="md-block">
                       <label>Email</label>
-                      <input required type="email" name="userEmail" ng-model="project.userEmail"
-                       minlength="5" maxlength="100" ng-pattern="/^.+@.+\..+$/" /  value = "{major}">
+                      <input required type="email" name="email" ng-model="project.userEmail"
+                       minlength="5" maxlength="100" ng-pattern="/^.+@.+\..+$/" /  value = "$${email}">
                       <md-tooltip>Please use your Missouri S&T Email</md-tooltip>
-                      <div ng-messages="projectForm.userEmail.$error" role="alert">
+                      <div ng-messages="projectForm.email.$error" role="alert">
                        <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
                         Your email must be between 5 and 100 characters long and should be a valid email address.
                        </div>
                       </div> 
                     </md-input-container>  
-                
-                    <md-input-container-select>
+                    
+
+                    <md-input-container class="md-block">
+                      <label>Major</label>
+                      <input required name="major" type="text" ng-model="project.major" value="$${major}">
+                      <md-tooltip>Please enter the full name of your major</md-tooltip>
+                      <div ng-messages="projectForm.name.$error">
+                        <div ng-message="required">This is required.</div>
+                      </div>
+                    </md-input-container>
+                      
+                <!--    <md-input-container-select >
                       <md-tooltip>All Majors are in Alphabetical Order</md-tooltip>
-	                    <div>
-                        <md-select ng-model="major" placeholder="Major" class="md-no-underline">
-                          <md-option value="n/a">Not a Student</md-option>
+	                    <div value"$${major}">
+                        <md-select ng-model="major" placeholder="Major" class="md-no-underline" name="major" >
+                          <md-option value="n\a">Not a Student</md-option>
                           <md-option value="aero">Aerospace Engineer</md-option>
                           <md-option value="appMath">Applied Mathematics</md-option>
                           <md-option value="architect">Architectural Engineer</md-option>
@@ -169,23 +190,45 @@
                           <md-option value="undecided">Undecided</md-option>
                           <md-option value="undecidedEng">Undecided Engineer</md-option> 
                         </md-select>
-                      </div>
-                    </md-input-container-select> 
+                      </div>  <!-- the values are being read but are not recognized by the backend scripts
+                    </md-input-container-select>-->
                     
-                   <md-checkbox class="green" name = "add_to_sig_sec">
+              <!--     <md-checkbox class="green" name = "add_to_sig_sec" $${sec_checked}>  <!-- Value isn't being sent either 
                      Join ACM SIG-Sec Mailing List
                    </md-checkbox>
-			 
-			             <md-card-actions layout="row" layout-align="end center">
-                     <md-button type="submit" class="submitButton" ng-click="showAlert($event)">Submit</md-button>
-                   </md-card-actions>
-                  </form>
+                   
+                   <md-checkbox class="green" name = "add_to_cdt" $${cdt_checked}>
+                     Join ACM Cyber Defense Team Mailing List
+                   </md-checkbox>
+                   
+                   <md-checkbox class="green" name= "add_to_ccdc" $${ccdc_checked}>
+                     Join Collegiate Cyber Defense Competition(CCDC) Mailing List
+                   </md-checkbox>
+			 -->
+                  <div class="checkBox">
+                    <input type="checkbox" id="checkBox" name="add_to_ccdc" $${ccdc_checked}/>
+                    Add to Collegiate Cyber Defense Competition (CCDC) Mailing List                    
+                  </div></br>
+                  <div class="checkBox">                 
+                    <input type="checkbox" id="checkBox" name="add_to_cdt" $${cdt_checked}/>
+                    Add to Cyber Defense Team (CDT) Mailing List 
+                  </div></br>
+                  <div class="checkBox">                  
+                    <input type="checkbox" id="checkBox" name="add_to_sig_sec" $${sec_checked}/>
+                    Add to SIG-Sec Mailing List
+                  </div></br>
+                      
+			            <md-card-actions layout="row" layout-align="end center">
+                    <md-button type="submit" class="submitButton" ng-click="">Submit</md-button> <br/>
+                  </md-card-actions> 
+                  <div style="color:black; font-size:20pt face="roboto"">$${response}</div>   
                 </md-card-title-text>
                 <md-card-title-media>
                  <div class="md-media-lg card-media"></div>
                 </md-card-title-media>
              </md-card-title>
            </md-card>
+            </form>
          </md-content>
       </div>
    </body>
