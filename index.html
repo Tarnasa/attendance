@@ -73,7 +73,7 @@
       <script language="javascript">
          var app = angular.module('signIn',['ngMaterial']);
          app.controller('inputController', inputController);
-         
+
          function inputController ($scope,$mdDialog) 
          {
            $scope.project = {
@@ -116,7 +116,7 @@
                 <md-card-title-text>			
                     <md-input-container>
                       <label>Secret Key</label>
-                      <input required name="secret" type = "text" ng-model="project.secret" value="$${secret}">
+                      <input required name="secret" type = "text" ng-model="project.secret" ng-init="project.secret='$${secret}'">
                       <md-tooltip>Written on a board or ask an ACM representative</md-tooltip>
                       <div ng-messages ="projectForm.secret.$error">
                         <div ng-message = "required"> This is required </div>
@@ -125,7 +125,7 @@
                     <md-input-container class="md-block">
                       <label>Name</label>
                       <md-tooltip>First and Last Name</md-tooltip>                  
-                      <input required name="name" type="text" ng-model="project.name" value="$${name}">
+                      <input required name="name" type="text" ng-model="project.name" ng-init="project.name='$${name}'">
                       <div ng-messages="projectForm.name.$error">
                         <div ng-message="required">This is required.</div>
                       </div>
@@ -134,7 +134,8 @@
                     <md-input-container class="md-block">
                       <label>Email</label>
                       <input required type="email" name="email" ng-model="project.userEmail"
-                       minlength="5" maxlength="100" ng-pattern="/^.+@.+\..+$/" /  value = "$${email}">
+                        minlength="5" maxlength="100" ng-pattern="/^.+@.+\..+$/"
+                        ng-init="project.userEmail='$${email}'">
                       <md-tooltip>Please use your Missouri S&T Email</md-tooltip>
                       <div ng-messages="projectForm.email.$error" role="alert">
                        <div ng-message-exp="['required', 'minlength', 'maxlength', 'pattern']">
@@ -146,7 +147,7 @@
 
                     <md-input-container class="md-block">
                       <label>Major</label>
-                      <input required name="major" type="text" ng-model="project.major" value="$${major}">
+                      <input required name="major" type="text" ng-model="project.major" ng-init="project.major='$${major}'">
                       <md-tooltip>Please enter the full name of your major</md-tooltip>
                       <div ng-messages="projectForm.name.$error">
                         <div ng-message="required">This is required.</div>
